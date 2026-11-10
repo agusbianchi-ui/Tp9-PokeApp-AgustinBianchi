@@ -1,17 +1,21 @@
+// Importa los datos iniciales de Pokémon y cuentas.
 import { especiesIniciales } from "./datos/pokemones.js";
 import { cuentasIniciales } from "./datos/usuarios.js";
 
+// Define las claves usadas para guardar datos en localStorage.
 const claveCatalogo = "pokeapp-renovada-especies";
 const claveCuentas = "pokeapp-renovada-cuentas";
 const claveSesion = "pokeapp-renovada-sesion";
 
 // Una colección existente nunca se reemplaza por los datos iniciales.
 function prepararColeccion(clave, contenidoInicial) {
+  // Crea la colección solo si todavía no existe.
   if (localStorage.getItem(clave) === null) {
     localStorage.setItem(clave, JSON.stringify(contenidoInicial));
   }
 }
 
+// Lee una colección y verifica que tenga formato de lista.
 function recuperarColeccion(clave) {
   const contenidoGuardado = JSON.parse(localStorage.getItem(clave));
   if (!Array.isArray(contenidoGuardado)) {
@@ -20,6 +24,7 @@ function recuperarColeccion(clave) {
   return contenidoGuardado;
 }
 
+// Inicializa el almacenamiento y actualiza datos de versiones anteriores.
 export function prepararAlmacenamiento() {
   prepararColeccion(claveCatalogo, especiesIniciales);
   prepararColeccion(claveCuentas, cuentasIniciales);
@@ -30,6 +35,7 @@ export function prepararAlmacenamiento() {
 
 // Mantengo los registros existentes al cambiar la cuenta y los nombres de archivos.
 function actualizarDatosAnteriores() {
+  // Actualiza cuentas antiguas y sus avatares, si es necesario.
   const cuentasGuardadas = recuperarCuentas();
   let cambiaronCuentas = false;
   for (const cuentaAnterior of cuentasGuardadas) {
@@ -54,6 +60,7 @@ function actualizarDatosAnteriores() {
     localStorage.setItem(claveCuentas, JSON.stringify(cuentasGuardadas));
   }
 
+  // Actualiza las rutas antiguas de imágenes y sonidos de Pokémon.
   const especiesGuardadas = recuperarCatalogo();
   let cambiaronRecursos = false;
   for (const fichaAnterior of especiesGuardadas) {
@@ -70,6 +77,7 @@ function actualizarDatosAnteriores() {
   }
 }
 
+// Convierte rutas antiguas conocidas a las rutas actuales.
 function actualizarRutaAnterior(rutaGuardada) {
   if (typeof rutaGuardada !== "string") {
     return rutaGuardada;
@@ -91,14 +99,17 @@ function actualizarRutaAnterior(rutaGuardada) {
   return rutaGuardada;
 }
 
+// Devuelve todas las especies guardadas.
 export function recuperarCatalogo() {
   return recuperarColeccion(claveCatalogo);
 }
 
+// Devuelve todas las cuentas guardadas.
 export function recuperarCuentas() {
   return recuperarColeccion(claveCuentas);
 }
 
+// Agrega una especie nueva si no repite ID ni nombre.
 export function incorporarEspecie(fichaNueva) {
   const listadoActual = recuperarCatalogo();
   for (const fichaGuardada of listadoActual) {
@@ -109,6 +120,7 @@ export function incorporarEspecie(fichaNueva) {
       throw new Error("Ya existe un Pokémon con ese número o nombre.");
     }
   }
+  // Agrega la especie y ordena el catálogo por número.
   listadoActual.push(fichaNueva);
   listadoActual.sort(function (primeraFicha, segundaFicha) {
     return primeraFicha.id - segundaFicha.id;
@@ -116,6 +128,7 @@ export function incorporarEspecie(fichaNueva) {
   localStorage.setItem(claveCatalogo, JSON.stringify(listadoActual));
 }
 
+// Agrega una cuenta nueva si no repite usuario ni correo.
 export function incorporarCuenta(cuentaNueva) {
   const cuentasActuales = recuperarCuentas();
   for (const cuentaGuardada of cuentasActuales) {
@@ -130,11 +143,13 @@ export function incorporarCuenta(cuentaNueva) {
   localStorage.setItem(claveCuentas, JSON.stringify(cuentasActuales));
 }
 
+// Guarda únicamente el ID de la cuenta para recordar la sesión.
 export function recordarAcceso(cuentaEncontrada) {
   // La sesión guarda solo el identificador; el rol se consulta en las cuentas.
   localStorage.setItem(claveSesion, JSON.stringify(cuentaEncontrada.id));
 }
 
+// Busca y devuelve la cuenta asociada a la sesión guardada.
 export function consultarAcceso() {
   const identificadorGuardado = JSON.parse(localStorage.getItem(claveSesion));
   for (const cuentaDisponible of recuperarCuentas()) {
@@ -145,6 +160,7 @@ export function consultarAcceso() {
   return null;
 }
 
+// Elimina la sesión recordada.
 export function olvidarAcceso() {
   localStorage.removeItem(claveSesion);
 }

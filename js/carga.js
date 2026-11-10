@@ -1,6 +1,9 @@
+// Importa funciones para acceder a la sesión y guardar especies.
 import { consultarAcceso, incorporarEspecie } from "./almacenamiento.js";
+// Importa utilidades para validar campos, rutas y mensajes.
 import { comprobarCampos, direccionSegura, informar, rechazarCampo, explicarFallo } from "./utilidades.js";
 
+// Lista de tipos Pokémon disponibles.
 const categoriasElementales = [
   "Acero",
   "Agua",
@@ -22,6 +25,7 @@ const categoriasElementales = [
   "Volador"
 ];
 
+// Genera las opciones del selector de tipos.
 function opcionesElementales() {
   let opcionesCreadas = "";
   for (const categoriaElemental of categoriasElementales) {
@@ -32,7 +36,9 @@ function opcionesElementales() {
   return opcionesCreadas;
 }
 
+// Muestra y controla el formulario para cargar un Pokémon.
 export function presentarCarga(zonaCarga, alIncorporar) {
+  // Verifica que haya una cuenta administradora.
   const cuentaSolicitante = consultarAcceso();
   if (!cuentaSolicitante || cuentaSolicitante.admin !== true) {
     zonaCarga.innerHTML = `
@@ -45,6 +51,7 @@ export function presentarCarga(zonaCarga, alIncorporar) {
     `;
     return;
   }
+  // Dibuja el formulario completo de carga.
   zonaCarga.innerHTML = `
     <section>
       <div class="encabezado-seccion">
@@ -181,22 +188,26 @@ export function presentarCarga(zonaCarga, alIncorporar) {
     </section>
   `;
 
+  // Guarda referencias a los controles principales del formulario.
   const cargaFormulario = document.querySelector("#alta-especie");
   const salidaCarga = document.querySelector("#aviso-carga");
   const casillaEvolucion = document.querySelector("#ficha-evoluciona");
   const casillaVariocolor = document.querySelector("#ficha-variocolor");
+  // Muestra u oculta los campos de evolución.
   casillaEvolucion.addEventListener("change", function () {
     document.querySelector("#campos-evolucion").hidden = !casillaEvolucion.checked;
     document.querySelector("#ficha-sucesor").disabled = !casillaEvolucion.checked;
     document.querySelector("#ficha-sucesor").required = casillaEvolucion.checked;
     document.querySelector("#ficha-nivel").disabled = !casillaEvolucion.checked;
   });
+  // Muestra u oculta el campo para la imagen variocolor.
   casillaVariocolor.addEventListener("change", function () {
     document.querySelector("#campo-variocolor").hidden = !casillaVariocolor.checked;
     document.querySelector("#ficha-retrato-alterno").disabled = !casillaVariocolor.checked;
     document.querySelector("#ficha-retrato-alterno").required = casillaVariocolor.checked;
   });
 
+  // Valida y guarda los datos cuando se envía el formulario.
   cargaFormulario.addEventListener("submit", function (sucesoCarga) {
     sucesoCarga.preventDefault();
     try {
@@ -210,9 +221,11 @@ export function presentarCarga(zonaCarga, alIncorporar) {
         );
         return;
       }
+      // Valida los campos obligatorios y sus límites.
       if (!comprobarCampos(cargaFormulario, salidaCarga)) {
         return;
       }
+      // Comprueba que los tipos elegidos sean diferentes.
       const elementoPrincipal = document.querySelector("#ficha-elemento").value;
       const elementoSecundario = document.querySelector("#ficha-elemento-adicional").value;
       if (elementoPrincipal === elementoSecundario) {
@@ -223,6 +236,7 @@ export function presentarCarga(zonaCarga, alIncorporar) {
         );
         return;
       }
+      // Verifica que las rutas sean locales o URLs seguras.
       for (const campoRuta of cargaFormulario.querySelectorAll(
         "#ficha-retrato, #ficha-audio, #ficha-retrato-alterno"
       )) {
@@ -231,10 +245,12 @@ export function presentarCarga(zonaCarga, alIncorporar) {
           return;
         }
       }
+      // Forma la lista de tipos seleccionados.
       const elementosElegidos = [elementoPrincipal];
       if (elementoSecundario !== "") {
         elementosElegidos.push(elementoSecundario);
       }
+      // Obtiene los datos opcionales de evolución.
       let evolucionElegida = null;
       let nivelElegido = null;
       if (casillaEvolucion.checked) {
@@ -244,11 +260,13 @@ export function presentarCarga(zonaCarga, alIncorporar) {
         }
       }
 
+      // Obtiene la imagen variocolor si fue seleccionada.
       let imagenAlternativa = null;
       if (casillaVariocolor.checked) {
         imagenAlternativa = document.querySelector("#ficha-retrato-alterno").value.trim();
       }
 
+      // Construye el objeto con todos los datos del nuevo Pokémon.
       const fichaCreada = {
         id: document.querySelector("#ficha-numero").valueAsNumber,
         nombre: document.querySelector("#ficha-denominacion").value.trim(),
@@ -271,9 +289,11 @@ export function presentarCarga(zonaCarga, alIncorporar) {
         shiny: casillaVariocolor.checked,
         imagenShiny: imagenAlternativa
       };
+      // Guarda la especie y notifica al resto de la aplicación.
       incorporarEspecie(fichaCreada);
       alIncorporar(fichaCreada);
     } catch (falloCarga) {
+      // Muestra un mensaje si ocurre un error durante la carga.
       informar(salidaCarga, explicarFallo(falloCarga), true);
     }
   });
