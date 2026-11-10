@@ -1,11 +1,12 @@
-export const trainerAccounts = [
+// Cuentas educativas. Los registros nuevos siempre tendrán admin: false.
+export const cuentasIniciales = [
   {
     "id": 1,
-    "nombre": "Renata Silva",
-    "email": "renata.s@example.com",
-    "username": "renata.s",
+    "nombre": "Agustín Bianchi",
+    "email": "agustin.b@example.com",
+    "username": "agustin.b",
     "password": "Entrenador01!",
-    "avatar": "./assets/avatar/trainer-01.svg",
+    "avatar": "./recursos/avatares/trainer-01.svg",
     "admin": true
   },
   {
@@ -14,7 +15,7 @@ export const trainerAccounts = [
     "email": "bruno.a@example.com",
     "username": "bruno.a",
     "password": "Entrenador02!",
-    "avatar": "./assets/avatar/trainer-02.svg",
+    "avatar": "./recursos/avatares/trainer-02.svg",
     "admin": false
   },
   {
@@ -23,7 +24,7 @@ export const trainerAccounts = [
     "email": "elena.r@example.com",
     "username": "elena.r",
     "password": "Entrenador03!",
-    "avatar": "./assets/avatar/trainer-03.svg",
+    "avatar": "./recursos/avatares/trainer-03.svg",
     "admin": false
   },
   {
@@ -32,7 +33,7 @@ export const trainerAccounts = [
     "email": "dante.m@example.com",
     "username": "dante.m",
     "password": "Entrenador04!",
-    "avatar": "./assets/avatar/trainer-04.svg",
+    "avatar": "./recursos/avatares/trainer-04.svg",
     "admin": false
   },
   {
@@ -41,7 +42,7 @@ export const trainerAccounts = [
     "email": "abril.c@example.com",
     "username": "abril.c",
     "password": "Entrenador05!",
-    "avatar": "./assets/avatar/trainer-05.svg",
+    "avatar": "./recursos/avatares/trainer-05.svg",
     "admin": false
   },
   {
@@ -50,7 +51,7 @@ export const trainerAccounts = [
     "email": "gael.t@example.com",
     "username": "gael.t",
     "password": "Entrenador06!",
-    "avatar": "./assets/avatar/trainer-06.svg",
+    "avatar": "./recursos/avatares/trainer-06.svg",
     "admin": false
   },
   {
@@ -59,7 +60,7 @@ export const trainerAccounts = [
     "email": "iris.v@example.com",
     "username": "iris.v",
     "password": "Entrenador07!",
-    "avatar": "./assets/avatar/trainer-07.svg",
+    "avatar": "./recursos/avatares/trainer-07.svg",
     "admin": false
   },
   {
@@ -68,7 +69,7 @@ export const trainerAccounts = [
     "email": "leon.d@example.com",
     "username": "leon.d",
     "password": "Entrenador08!",
-    "avatar": "./assets/avatar/trainer-08.svg",
+    "avatar": "./recursos/avatares/trainer-08.svg",
     "admin": false
   },
   {
@@ -77,7 +78,7 @@ export const trainerAccounts = [
     "email": "alma.f@example.com",
     "username": "alma.f",
     "password": "Entrenador09!",
-    "avatar": "./assets/avatar/trainer-09.svg",
+    "avatar": "./recursos/avatares/trainer-09.svg",
     "admin": false
   },
   {
@@ -86,7 +87,7 @@ export const trainerAccounts = [
     "email": "simon.p@example.com",
     "username": "simon.p",
     "password": "Entrenador10!",
-    "avatar": "./assets/avatar/trainer-10.svg",
+    "avatar": "./recursos/avatares/trainer-10.svg",
     "admin": false
   }
 ];

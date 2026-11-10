@@ -5,34 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#142b2c" />
     <title>PokeApp · Atlas Pokémon</title>
+    <link rel="icon" href="./recursos/imagenes/sin-imagen.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./css/style.css" />
   </head>
+
   <body>
-    <aside class="rail">
-      <button class="brand" id="home-trigger" type="button" aria-label="Volver al inicio">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>PokeApp<small>ATLAS POKÉMON</small></span>
+    <a class="saltar-contenido" href="#contenido-principal">Ir al contenido</a>
+
+    <!-- Marca y navegación principal -->
+    <aside class="barra-lateral">
+      <button class="marca" id="volver-portada" type="button" aria-label="Volver al inicio">
+        <span class="simbolo-marca" aria-hidden="true"></span>
+        <span>
+          PokeApp
+          <small>ATLAS POKÉMON</small>
+        </span>
       </button>
-      <div class="rail-label">TU EXPEDICIÓN</div>
-      <nav class="navigation" aria-label="Navegación principal">
-        <a href="#" id="catalog-trigger"><span aria-hidden="true">01</span>Pokédex</a>
-        <a href="#" id="signin-trigger"><span aria-hidden="true">02</span>Iniciar sesión</a>
-        <a href="#" id="signup-trigger"><span aria-hidden="true">03</span>Registrarse</a>
-        <a href="#" id="arena-trigger"><span aria-hidden="true">04</span>Batalla</a>
+
+      <div class="rotulo-menu">TU EXPEDICIÓN</div>
+
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a href="#inicio" data-vista="inicio">
+          <span aria-hidden="true">00</span>
+          Inicio
+        </a>
+        <a href="#especies" data-vista="especies">
+          <span aria-hidden="true">01</span>
+          Pokédex
+        </a>
+        <a href="#acceso" data-vista="acceso" id="enlace-acceso">
+          <span aria-hidden="true">02</span>
+          Iniciar sesión
+        </a>
+        <a href="#inscripcion" data-vista="inscripcion" id="enlace-inscripcion">
+          <span aria-hidden="true">03</span>
+          Registrarse
+        </a>
+        <a href="#arena" data-vista="arena">
+          <span aria-hidden="true">04</span>
+          Batalla
+        </a>
+        <a href="#carga" data-vista="carga" id="enlace-carga" hidden>
+          <span aria-hidden="true">05</span>
+          Cargar Pokémon
+        </a>
       </nav>
-      <div class="rail-note"><span class="status-dot"></span>Región Kanto<small>Todo viaje empieza con curiosidad.</small></div>
+
+      <div class="nota-menu">
+        <span class="punto-estado"></span>
+        Región Kanto
+        <small>Todo viaje empieza con curiosidad.</small>
+      </div>
     </aside>
-    <div class="workspace">
-      <header class="toolbar">
-        <p>ARCHIVO DE CAMPO <span>/ KANTO</span></p>
-        <form class="search-box" id="search-form">
-          <input type="search" id="search-query" aria-label="Buscar Pokémon" placeholder="Buscar Pokémon..." />
-          <button type="submit" aria-label="Buscar">⌕</button>
-        </form>
+
+    <div class="espacio">
+      <header class="barra-superior">
+        <p>ARCHIVO DE CAMPO <span>/ POKÉDEX</span></p>
+        <div id="identidad-activa" class="identidad-activa"></div>
       </header>
-      <main id="view-root" class="view-root"></main>
-      <footer class="page-footer"><p>PokeApp · Proyecto educativo</p><p>Explorá. Descubrí. Conocé.</p></footer>
+
+      <p id="aviso-general" class="mensaje aviso-general" role="status" hidden></p>
+
+      <!-- Las funciones de JavaScript muestran las vistas en este elemento. -->
+      <main id="contenido-principal" class="contenido" tabindex="-1"></main>
+
+      <noscript>
+        <p class="mensaje">Activá JavaScript para utilizar PokeApp.</p>
+      </noscript>
+
+      <footer class="pie-pagina">
+        <p>PokeApp · Proyecto educativo · TP 9</p>
+        <p>Explorá. Descubrí. Conocé.</p>
+      </footer>
     </div>
+
     <script type="module" src="./js/app.js"></script>
-    <script type="module" src="./js/persistencia.js"></script>
+  </body>
 </html>
