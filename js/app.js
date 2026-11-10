@@ -1,298 +1,154 @@
 import { pokemones } from "./db/pokemones.js";
-import { usuarios } from "./db/usuarios.js";
+import { trainerAccounts } from "./db/usuarios.js";
 
+const viewRoot = document.querySelector("#view-root");
 
-// ==========================================
-// ELEMENTO PRINCIPAL DE LA APLICACIÓN
-// ==========================================
-
-const app = document.querySelector("#app");
-
-// ==========================================
-// 1. LANDING
-// ==========================================
-
-// Estructura básica de la pantalla
-const landing = `
-  <section class="landing">
-    <h1>Bienvenido a PokeApp</h1>
-    <p>Explorá el mundo Pokémon.</p>
-    <p>Elegí una opción del menú para comenzar.</p>
+const welcomeView = `
+  <section class="welcome-view">
+    <div class="welcome-copy">
+      <p class="eyebrow">EL MUNDO POKÉMON, MÁS CERCA</p>
+      <h1>La próxima<br>aventura<br><em>empieza acá.</em></h1>
+      <p class="intro">Explorá el mundo Pokémon. Conocé a los habitantes de Kanto y encontrá tu próximo compañero de viaje.</p>
+      <p class="welcome-hint">Elegí una opción del menú para comenzar. <span aria-hidden="true">↗</span></p>
+    </div>
+    <div class="specimen">
+      <span class="specimen-label">ESPÉCIMEN DESTACADO</span>
+      <div class="specimen-orbit"><img src="./assets/img/pikachu.png" alt="Pikachu" /></div>
+      <div class="specimen-caption"><span><small>N.º 025 · KANTO</small><strong>Pikachu</strong></span><span class="type-tag type-eléctrico">Eléctrico</span></div>
+    </div>
+    <div class="field-summary"><div><strong>${pokemones.length}</strong><span>Pokémon para descubrir</span></div><div><strong>01</strong><span>Región por explorar</span></div><p>Un pequeño atlas.<br>Un universo de posibilidades.</p></div>
   </section>
 `;
 
-// Función para cargar los elementos dinámicos
-function cargarLanding() {
-  console.log("Landing cargado");
+function initializeWelcome() {
+  console.log("Inicio disponible");
 }
 
-// Evento del logo
-const logo = document.querySelector(".header-logo img");
-
-logo.addEventListener("click", function () {
-  app.innerHTML = landing;
-
-  cargarLanding();
+const homeTrigger = document.querySelector("#home-trigger");
+homeTrigger.addEventListener("click", function () {
+  viewRoot.innerHTML = welcomeView;
+  initializeWelcome();
 });
 
-// ==========================================
-// 2. POKÉDEX
-// ==========================================
-
-// Estructura básica de la pantalla
-const pokedex = `
-  <section class="pokedex-section">
-    <h1>Pokédex</h1>
-
-    <div id="pokedex-gallery" class="pokedex-gallery"></div>
+const catalogView = `
+  <section class="catalog-view">
+    <div class="section-heading"><div><p class="eyebrow">EXPLORÁ LA REGIÓN</p><h1>Pokédex<span>.</span></h1></div><p>${pokemones.length} especies<br><span>Archivo de Kanto</span></p></div>
+    <div id="creature-grid" class="creature-grid"></div>
   </section>
 `;
 
-// Función para cargar los elementos dinámicos
-function cargarPokedex() {
-  const pokedexGallery = document.querySelector("#pokedex-gallery");
-
-  for (let pokemon of pokemones) {
-    pokedexGallery.innerHTML += `
-      <article class="pokemon-card">
-
-        <div class="pokemon-image">
-          <img 
-            src="${pokemon.imagen}" 
-            alt="${pokemon.nombre}"
-          />
+function populateCatalog() {
+  const creatureGrid = document.querySelector("#creature-grid");
+  for (let creature of pokemones) {
+    creatureGrid.innerHTML += `
+      <article class="creature-card">
+        <div class="creature-art"><span class="catalog-number">N.º ${creature.id}</span><img src="${creature.imagen}" alt="${creature.nombre}" /></div>
+        <div class="creature-description">
+          <p class="rarity-label">${creature.rareza}</p>
+          <h2>${creature.nombre}</h2>
+          <div class="type-list"><span class="type-tag type-${creature.tipo[0].toLowerCase()}">${creature.tipo[0]}</span></div>
+          <button class="detail-trigger" data-id="${creature.id}">Ver detalles <span aria-hidden="true">↗</span></button>
         </div>
-
-        <div class="pokemon-info">
-
-          <span class="pokemon-id">
-            N.º ${pokemon.id}
-          </span>
-
-          <h2>${pokemon.nombre}</h2>
-
-          <div class="pokemon-types">
-            <span class="type type-${pokemon.tipo[0].toLowerCase()}">
-              ${pokemon.tipo[0]}
-            </span>
-          </div>
-
-          <p class="pokemon-rareza">
-            ${pokemon.rareza}
-          </p>
-
-          <button class="btn-detalle" data-id="${pokemon.id}">
-            Ver detalles
-          </button>
-
-        </div>
-
       </article>
     `;
   }
 }
 
-// Evento del botón Pokédex
-const botonPokedex = document.querySelector("#link-pokedex");
-
-botonPokedex.addEventListener("click", function (event) {
-  event.preventDefault();
-
-  app.innerHTML = pokedex;
-
-  cargarPokedex();
+const catalogTrigger = document.querySelector("#catalog-trigger");
+catalogTrigger.addEventListener("click", function (interaction) {
+  interaction.preventDefault();
+  viewRoot.innerHTML = catalogView;
+  populateCatalog();
 });
 
-// ==========================================
-// 3. INICIAR SESIÓN
-// ==========================================
-
-// Estructura básica de la pantalla
-const login = `
-  <section class="login-section">
-
-    <h1>Iniciar sesión</h1>
-
-    <form id="form-login">
-
-      <label for="username">
-        Usuario
-      </label>
-
-      <input 
-        type="text" 
-        id="username"
-      />
-
-      <label for="password">
-        Contraseña
-      </label>
-
-      <input 
-        type="password" 
-        id="password"
-      />
-
-      <button type="submit">
-        Ingresar
-      </button>
-
-    </form>
-
+const signinView = `
+  <section class="account-view">
+    <div class="account-story"><p class="eyebrow">TU PRÓXIMA EXPEDICIÓN</p><h1>Qué bueno<br>verte de<br><em>nuevo.</em></h1><p>Volvé a explorar el mundo Pokémon.</p><span class="story-mark" aria-hidden="true">◎</span></div>
+    <div class="form-panel"><p class="eyebrow">ACCESO DE ENTRENADORES</p><h2>Iniciar sesión</h2>
+      <form id="signin-form">
+        <label for="account-handle">Usuario</label><input type="text" id="account-handle" autocomplete="username" placeholder="Tu usuario" />
+        <label for="account-secret">Contraseña</label><input type="password" id="account-secret" autocomplete="current-password" placeholder="Tu contraseña" />
+        <button type="submit">Ingresar <span aria-hidden="true">→</span></button>
+      </form>
+    </div>
   </section>
 `;
 
-// Función para cargar los elementos dinámicos
-function cargarLogin() {
-  console.log("Formulario de inicio de sesión cargado");
+function initializeSignin() {
+  console.log("Vista de acceso disponible");
 }
 
-// Evento del botón Iniciar sesión
-const botonLogin = document.querySelector("#link-login");
-
-botonLogin.addEventListener("click", function (event) {
-  event.preventDefault();
-
-  app.innerHTML = login;
-
-  cargarLogin();
-
-  const formularioLogin = document.querySelector("#form-login");
-
-formularioLogin.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const username = document.querySelector("#username").value;
-  const password = document.querySelector("#password").value;
-let encontrado = false;
-  for (const usuario of usuarios) {
-    if (usuario.username === username && usuario.password === password) {
-     alert(`Bienvenido, ${usuario.nombre}!`);
-     encontrado = true;
-     break;
-    } else {
-     encontrado = false;
+const signinTrigger = document.querySelector("#signin-trigger");
+signinTrigger.addEventListener("click", function (interaction) {
+  interaction.preventDefault();
+  viewRoot.innerHTML = signinView;
+  initializeSignin();
+  const signinForm = document.querySelector("#signin-form");
+  signinForm.addEventListener("submit", (submission) => {
+    submission.preventDefault();
+    const enteredHandle = document.querySelector("#account-handle").value;
+    const enteredSecret = document.querySelector("#account-secret").value;
+    let credentialsMatch = false;
+    for (const account of trainerAccounts) {
+      if (account.username === enteredHandle && account.password === enteredSecret) {
+        alert(`Bienvenido, ${account.nombre}!`);
+        credentialsMatch = true;
+        break;
+      } else {
+        credentialsMatch = false;
+      }
     }
-  }
-  if (!encontrado) {
-    alert("Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.");
-  }
+    if (!credentialsMatch) {
+      alert("Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.");
+    }
+  });
 });
-});
 
-// ==========================================
-// 4. REGISTRO
-// ==========================================
-
-// Estructura básica de la pantalla
-const registro = `
-  <section class="registro-section">
-
-    <h1>Registrarse</h1>
-
-    <form id="form-registro">
-
-      <label for="nombre">
-        Nombre
-      </label>
-
-      <input 
-        type="text" 
-        id="nombre"
-      />
-
-      <label for="email">
-        Email
-      </label>
-
-      <input 
-        type="email" 
-        id="email"
-      />
-
-      <label for="nuevo-username">
-        Usuario
-      </label>
-
-      <input 
-        type="text" 
-        id="nuevo-username"
-      />
-
-      <label for="nueva-password">
-        Contraseña
-      </label>
-
-      <input 
-        type="password" 
-        id="nueva-password"
-      />
-
-      <button type="submit">
-        Registrarse
-      </button>
-
-    </form>
-
+const signupView = `
+  <section class="account-view">
+    <div class="account-story"><p class="eyebrow">UN NUEVO COMIENZO</p><h1>Tu historia<br>merece una<br><em>aventura.</em></h1><p>El mundo de Kanto te espera.</p><span class="story-mark" aria-hidden="true">◎</span></div>
+    <div class="form-panel"><p class="eyebrow">PERFIL DE ENTRENADOR</p><h2>Registrarse</h2>
+      <form id="signup-form">
+        <label for="profile-name">Nombre</label><input type="text" id="profile-name" autocomplete="name" placeholder="Tu nombre" />
+        <label for="profile-email">Email</label><input type="email" id="profile-email" autocomplete="email" placeholder="nombre@ejemplo.com" />
+        <label for="profile-handle">Usuario</label><input type="text" id="profile-handle" autocomplete="username" placeholder="Elegí un usuario" />
+        <label for="profile-secret">Contraseña</label><input type="password" id="profile-secret" autocomplete="new-password" placeholder="Elegí una contraseña" />
+        <button type="submit">Registrarse <span aria-hidden="true">→</span></button>
+      </form>
+    </div>
   </section>
 `;
 
-// Función para cargar los elementos dinámicos
-function cargarRegistro() {
-  console.log("Formulario de registro cargado");
+function initializeSignup() {
+  console.log("Vista de registro disponible");
 }
 
-// Evento del botón Registrarse
-const botonRegistro = document.querySelector("#link-registro");
-
-botonRegistro.addEventListener("click", function (event) {
-  event.preventDefault();
-
-  app.innerHTML = registro;
-
-  cargarRegistro();
+const signupTrigger = document.querySelector("#signup-trigger");
+signupTrigger.addEventListener("click", function (interaction) {
+  interaction.preventDefault();
+  viewRoot.innerHTML = signupView;
+  initializeSignup();
 });
 
-// ==========================================
-// 5. BATALLA
-// ==========================================
-
-// Estructura básica de la pantalla
-const batalla = `
-  <section class="batalla-section">
-
-    <h1>Batalla Pokémon</h1>
-
-    <p>
-      Elegí tu Pokémon para comenzar.
-    </p>
-
-    <button id="btn-comenzar-batalla">
-      Comenzar batalla
-    </button>
-
+const arenaView = `
+  <section class="arena-view">
+    <p class="eyebrow">ARENA DE ENTRENADORES</p><h1>Batalla Pokémon<span>.</span></h1>
+    <p>Elegí tu Pokémon para comenzar.</p>
+    <div class="arena-art" aria-hidden="true"><img src="./assets/img/Charizard.png" alt="" /><span>VS</span><img src="./assets/img/Blastoise.png" alt="" /></div>
+    <button id="arena-start">Comenzar batalla <span aria-hidden="true">→</span></button>
   </section>
 `;
 
-// Función para cargar los elementos dinámicos
-function cargarBatalla() {
-  console.log("Pantalla de batalla cargada");
+function initializeArena() {
+  console.log("Vista de batalla disponible");
 }
 
-// Evento del botón Batalla
-const botonBatalla = document.querySelector("#link-juego");
-
-botonBatalla.addEventListener("click", function (event) {
-  event.preventDefault();
-
-  app.innerHTML = batalla;
-
-  cargarBatalla();
+const arenaTrigger = document.querySelector("#arena-trigger");
+arenaTrigger.addEventListener("click", function (interaction) {
+  interaction.preventDefault();
+  viewRoot.innerHTML = arenaView;
+  initializeArena();
 });
 
-// ==========================================
-// 6. LANDING INICIAL
-// ==========================================
-
-app.innerHTML = landing;
-
-cargarLanding();
+viewRoot.innerHTML = welcomeView;
+initializeWelcome();

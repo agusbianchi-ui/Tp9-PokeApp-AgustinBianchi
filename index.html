@@ -3,38 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PokeApp</title>
+    <meta name="theme-color" content="#142b2c" />
+    <title>PokeApp · Atlas Pokémon</title>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <header class="header">
-      <div class="header-logo">
-        <img src="./assets/img/logo-pokemon.svg" alt="Pokémon" />
-      </div>
-
-      <nav class="header-nav">
-        <a href="#" id="link-pokedex">Pokédex</a>
-        <a href="#" id="link-login">Iniciar sesión</a>
-        <a href="#" id="link-registro">Registrarse</a>
-        <a href="#" id="link-juego">Batalla</a>
+    <aside class="rail">
+      <button class="brand" id="home-trigger" type="button" aria-label="Volver al inicio">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>PokeApp<small>ATLAS POKÉMON</small></span>
+      </button>
+      <div class="rail-label">TU EXPEDICIÓN</div>
+      <nav class="navigation" aria-label="Navegación principal">
+        <a href="#" id="catalog-trigger"><span aria-hidden="true">01</span>Pokédex</a>
+        <a href="#" id="signin-trigger"><span aria-hidden="true">02</span>Iniciar sesión</a>
+        <a href="#" id="signup-trigger"><span aria-hidden="true">03</span>Registrarse</a>
+        <a href="#" id="arena-trigger"><span aria-hidden="true">04</span>Batalla</a>
       </nav>
-
-      <form class="header-search" id="form-busqueda">
-        <input type="search" id="busqueda" placeholder="Buscar Pokémon..." />
-
-        <button type="submit" aria-label="Buscar">🔍</button>
-      </form>
-    </header>
-    <main class="main">
-      <div id="app"></div>
-    </main>
-
-    <footer class="footer">
-      <p>Pokédex Web - Proyecto educativo</p>
-
-      <p>Código abierto - GitHub</p>
-    </footer>
-
+      <div class="rail-note"><span class="status-dot"></span>Región Kanto<small>Todo viaje empieza con curiosidad.</small></div>
+    </aside>
+    <div class="workspace">
+      <header class="toolbar">
+        <p>ARCHIVO DE CAMPO <span>/ KANTO</span></p>
+        <form class="search-box" id="search-form">
+          <input type="search" id="search-query" aria-label="Buscar Pokémon" placeholder="Buscar Pokémon..." />
+          <button type="submit" aria-label="Buscar">⌕</button>
+        </form>
+      </header>
+      <main id="view-root" class="view-root"></main>
+      <footer class="page-footer"><p>PokeApp · Proyecto educativo</p><p>Explorá. Descubrí. Conocé.</p></footer>
+    </div>
     <script type="module" src="./js/app.js"></script>
-  </body>
+    <script type="module" src="./js/persistencia.js"></script>
 </html>
