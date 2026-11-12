@@ -103,6 +103,9 @@ Los errores y confirmaciones se muestran dentro de la página. Los formularios u
 
 Para comprobar el proyecto revisé la navegación, el registro y el inicio de sesión, la diferencia entre roles y la carga de Pokémon. También comprobé que los registros siguieran disponibles después de recargar, que las cuatro rutas de la batalla terminaran y que el diseño se adaptara a escritorio y celular.
 
+## Testeo y Colaboración
+Intercambiamos páginas con Valentino Carribale [(su PokeApp)](https://valentino-carribale.github.io/PokeApp-Carribale-Pokedex/) para verificar las funcionalidades y sugerir algún cambio estético/funcional, validamos que las ideas de cada uno funcionaran y si algo fallaba.
+
 ## Recursos utilizados
 
 Usé las imágenes y sonidos locales del proyecto. Las variantes de Pokémon proceden de `PokeAPI/sprites` y los sonidos incorporados de `PokeAPI/cries`. Los avatares con iniciales y la imagen de reemplazo son recursos del proyecto. Pokémon pertenece a sus respectivos titulares; esta página tiene fines educativos.
